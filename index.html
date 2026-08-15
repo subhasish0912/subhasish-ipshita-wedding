@@ -1,60 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Subhasish & Ipshita – Wedding Invitation</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="Wedding invitation for Subhasish & Ipshita — 26 January 2027">
+  <meta property="og:title" content="Subhasish & Ipshita — 26 January 2027">
+  <meta property="og:description" content="Join us as we celebrate the wedding of Subhasish & Ipshita.">
+  <title>Subhasish & Ipshita | 26 January 2027</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:wght@400;500;600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+  <div class="petals" aria-hidden="true"></div>
 
-    <!-- Hero Section -->
-    <section id="hero">
-        <div class="overlay"></div>
-        <h1>Subhasish & Ipshita</h1>
-        <p>Are Getting Married</p>
-        <p class="date">26 January 2027</p>
+  <div class="preloader" id="preloader">
+    <div class="preloader-flower">✿</div>
+    <div class="preloader-monogram">S <span>&</span> I</div>
+    <p>Our forever begins here</p>
+    <button id="enterBtn">Enter the celebration</button>
+  </div>
+
+  <button class="music-toggle" id="musicBtn" aria-label="Toggle music">♫</button>
+  <audio id="bgMusic" loop preload="none">
+    <source src="Khat.mp3" type="audio/mpeg">
+  </audio>
+
+  <nav class="section-nav" aria-label="Page navigation">
+    <a href="#home">Home</a>
+    <a href="#story">Our Story</a>
+    <a href="#events">Events</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#details">Details</a>
+  </nav>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-bg"></div>
+      <div class="floral-corner floral-corner-left">❀</div>
+      <div class="floral-corner floral-corner-right">❀</div>
+
+      <div class="hero-content">
+        <p class="eyebrow">Together with our families</p>
+        <div class="small-flower">✿</div>
+        <h1>Subhasish <span>&</span> Ipshita</h1>
+        <p class="weds">are getting married</p>
+        <div class="hero-divider"><i></i><span>❀</span><i></i></div>
+        <p class="date">26 <b>•</b> JANUARY <b>•</b> 2027</p>
+        <p class="venue">Rajwada Banquet</p>
+        <a class="scroll-cta" href="#story">Scroll to begin ↓</a>
+      </div>
     </section>
 
-    <!-- Countdown -->
-    <section id="countdown">
-        <h2>Countdown to Our Big Day</h2>
-        <div id="timer"></div>
+    <section class="section story" id="story">
+      <div class="section-heading reveal">
+        <span class="label">Our story</span>
+        <h2>A beautiful beginning</h2>
+        <div class="ornament">❀</div>
+      </div>
+
+      <div class="story-card reveal">
+        <p>
+          Two hearts, one beautiful journey, and a lifetime waiting to be written.
+          With the love and blessings of our families, we invite you to be part of
+          our most cherished day.
+        </p>
+        <p>
+          Come celebrate the laughter, the promises, the flowers and all the little
+          moments that make this beginning unforgettable.
+        </p>
+        <div class="initials">S <span>♡</span> I</div>
+      </div>
     </section>
 
-    <!-- Wedding Ceremony -->
-    <section id="wedding">
-        <h2>Wedding Ceremony</h2>
-        <p><strong>Venue:</strong> Rajwada Banquet</p>
-        <p><strong>Date:</strong> 26 January 2027</p>
-        <p><strong>Time:</strong> To be announced</p>
-        <a href="#" target="_blank">View on Map</a>
+    <section class="floral-banner">
+      <div class="banner-flower">❀</div>
+      <p>Where flowers bloom, love follows</p>
+      <h2>Forever starts with us</h2>
+      <div class="banner-flower">❀</div>
     </section>
 
-    <!-- Reception -->
-    <section id="reception">
-        <h2>Reception</h2>
-        <p><strong>Venue:</strong> Tirupati Balaji Banquet</p>
-        <p><strong>Date:</strong> 26 January 2027</p>
-        <p><strong>Time:</strong> To be announced</p>
-        <a href="#" target="_blank">View on Map</a>
+    <section class="section events" id="events">
+      <div class="section-heading reveal">
+        <span class="label">Save the date</span>
+        <h2>The celebration</h2>
+        <div class="ornament">❀</div>
+      </div>
+
+      <div class="timeline">
+        <article class="event-card wedding reveal">
+          <div class="event-flower">✿</div>
+          <div class="event-info">
+            <span class="event-date">26 January 2027</span>
+            <h3>The Wedding</h3>
+            <p class="event-venue">Rajwada Banquet</p>
+            <p class="event-note">Our wedding celebration</p>
+            <div class="event-actions">
+              <a class="btn" target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/search/?api=1&query=Rajwada+Banquet">View location</a>
+              <button class="btn btn-outline" onclick="addWeddingToCalendar()">Add to calendar</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="event-card reception reveal">
+          <div class="event-flower">❀</div>
+          <div class="event-info">
+            <span class="event-date">Reception</span>
+            <h3>Reception</h3>
+            <p class="event-venue">Tirupati Balaji Banquet</p>
+            <p class="event-note">Date & time to be announced</p>
+            <div class="event-actions">
+              <a class="btn" target="_blank" rel="noopener"
+                 href="https://www.google.com/maps/search/?api=1&query=Tirupati+Balaji+Banquet">View location</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <p class="event-disclaimer reveal">
+        The wedding date is confirmed for <strong>26 January 2027</strong>.
+        Reception date and timing can be added here once confirmed.
+      </p>
     </section>
 
-    <!-- Gallery -->
-    <section id="gallery">
-        <h2>Gallery</h2>
-        <div class="photos">
-            <img src="images/couple.jpg" alt="Couple Photo">
-            <img src="images/floral1.jpg" alt="Floral Theme">
-            <img src="images/floral2.jpg" alt="Floral Theme">
+    <section class="section gallery" id="gallery">
+      <div class="section-heading reveal">
+        <span class="label">Moments</span>
+        <h2>Our gallery</h2>
+        <div class="ornament">❀</div>
+      </div>
+
+      <div class="gallery-grid">
+        <figure class="gallery-item reveal"><img src="couple-1.jpg" alt="Subhasish and Ipshita"></figure>
+        <figure class="gallery-item reveal"><img src="couple-2.jpg" alt="Subhasish and Ipshita"></figure>
+        <figure class="gallery-item reveal"><img src="gallery-1.jpg" alt="Wedding memory"></figure>
+        <figure class="gallery-item reveal"><img src="gallery-2.jpg" alt="Wedding memory"></figure>
+        <figure class="gallery-item reveal"><img src="gallery-3.jpg" alt="Wedding memory"></figure>
+      </div>
+
+      <p class="gallery-note">Replace these image files with your favourite photographs.</p>
+    </section>
+
+    <section class="section details" id="details">
+      <div class="section-heading reveal">
+        <span class="label">Good to know</span>
+        <h2>Come celebrate with us</h2>
+        <div class="ornament">❀</div>
+      </div>
+
+      <div class="details-grid">
+        <div class="detail-card reveal">
+          <span class="detail-icon">🌸</span>
+          <h3>Theme</h3>
+          <p>Floral — soft, romantic and full of blooms.</p>
         </div>
+        <div class="detail-card reveal">
+          <span class="detail-icon">💍</span>
+          <h3>Wedding</h3>
+          <p>26 January 2027<br>Rajwada Banquet</p>
+        </div>
+        <div class="detail-card reveal">
+          <span class="detail-icon">🥂</span>
+          <h3>Reception</h3>
+          <p>Tirupati Balaji Banquet<br>Date to be announced</p>
+        </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer>
-        <p>With love, Subhasish & Ipshita</p>
-    </footer>
+    <section class="countdown-section">
+      <div class="countdown-flower">❀</div>
+      <p class="label">Counting the days</p>
+      <h2>Until we say “I do”</h2>
+      <div class="countdown" id="countdown">
+        <div><strong id="days">00</strong><span>Days</span></div>
+        <div><strong id="hours">00</strong><span>Hours</span></div>
+        <div><strong id="minutes">00</strong><span>Minutes</span></div>
+        <div><strong id="seconds">00</strong><span>Seconds</span></div>
+      </div>
+      <p id="countdownMessage">We can't wait to celebrate with you.</p>
+    </section>
 
-    <script src="script.js"></script>
+    <footer>
+      <div class="footer-flower">❀</div>
+      <p class="footer-script">With love,</p>
+      <h2>Subhasish & Ipshita</h2>
+      <p>26 January 2027</p>
+    </footer>
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <button id="closeLightbox" aria-label="Close">×</button>
+    <img id="lightboxImg" src="" alt="">
+  </div>
+
+  <script src="script.js"></script>
 </body>
 </html>
+
