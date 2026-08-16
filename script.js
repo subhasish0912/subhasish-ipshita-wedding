@@ -77,29 +77,41 @@ function createPetal() {
 
 setInterval(createPetal, 1200);
 
-// Gallery lightbox.
-const lightbox = document.getElementById("lightbox");
-const lightboxImg = document.getElementById("lightboxImg");
+// Prevent dragging images.
+document.querySelectorAll("img").forEach(img => {
+  img.setAttribute("draggable", "false");
 
-document.querySelectorAll(".gallery-item img").forEach(img => {
-  img.addEventListener("click", () => {
-    lightboxImg.src = img.src;
-    lightboxImg.alt = img.alt;
-    lightbox.classList.add("active");
+  img.addEventListener("dragstart", event => {
+    event.preventDefault();
   });
 });
 
-document.getElementById("closeLightbox").addEventListener("click", closeLightbox);
-lightbox.addEventListener("click", (event) => {
-  if (event.target === lightbox) closeLightbox();
-});
-document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") closeLightbox();
+// Prevent right-click / context menu on photos.
+document.addEventListener("contextmenu", event => {
+  const photo = event.target.closest("img, .gallery-item, .hero-bg, .floral-banner");
+
+  if (photo) {
+    event.preventDefault();
+  }
 });
 
-function closeLightbox() {
-  lightbox.classList.remove("active");
-}
+// Prevent double-click selection/zoom behaviour on photos.
+document.addEventListener("dblclick", event => {
+  const photo = event.target.closest("img, .gallery-item");
+
+  if (photo) {
+    event.preventDefault();
+  }
+});
+
+// Prevent long-press image menu on mobile browsers.
+document.addEventListener("touchstart", event => {
+  const photo = event.target.closest("img");
+
+  if (photo) {
+    photo.style.webkitTouchCallout = "none";
+  }
+}, { passive: true });
 
 // Calendar download for the confirmed wedding date.
 // Time is intentionally omitted because the wedding time was not provided.
