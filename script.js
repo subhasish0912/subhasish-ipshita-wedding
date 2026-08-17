@@ -5,32 +5,29 @@ const enterBtn = document.getElementById("enterBtn");
 const musicBtn = document.getElementById("musicBtn");
 const bgMusic = document.getElementById("bgMusic");
 
-if (enterBtn && preloader) {
-  enterBtn.addEventListener("click", () => {
+function enterCelebration() {
+  if (preloader) {
     preloader.classList.add("hidden");
-    document.body.classList.add("site-entered");
-
-    // Music is optional. A missing/blocked audio file must never stop the page.
-    if (bgMusic) {
-      bgMusic.volume = 0.25;
-      const playPromise = bgMusic.play();
-      if (playPromise && typeof playPromise.then === "function") {
-        playPromise
-          .then(() => musicBtn && musicBtn.classList.add("playing"))
-          .catch(() => {});
-      }
+    preloader.setAttribute("aria-hidden", "true");
+  }
+  document.body.classList.add("site-entered");
+  if (bgMusic) {
+    bgMusic.volume = 0.25;
+    const playPromise = bgMusic.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.then(() => { if (musicBtn) musicBtn.classList.add("playing"); }).catch(() => {});
     }
-  });
+  }
 }
+
+if (enterBtn) enterBtn.addEventListener("click", enterCelebration);
 
 if (musicBtn && bgMusic) {
   musicBtn.addEventListener("click", () => {
     if (bgMusic.paused) {
       const playPromise = bgMusic.play();
-      if (playPromise && typeof playPromise.then === "function") {
-        playPromise
-          .then(() => musicBtn.classList.add("playing"))
-          .catch(() => {});
+      if (playPromise && typeof playPromise.catch === "function") {
+        playPromise.then(() => musicBtn.classList.add("playing")).catch(() => {});
       }
     } else {
       bgMusic.pause();
@@ -39,17 +36,32 @@ if (musicBtn && bgMusic) {
   });
 }
 
+document.querySelectorAll(".section-nav a, a.scroll-cta").forEach(link => {
+  link.addEventListener("click", event => {
+    const href = link.getAttribute("href");
+    if (!href || !href.startsWith("#")) return;
+    const target = document.querySelector(href);
+    if (!target) return;
+    event.preventDefault();
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
+    history.replaceState(null, "", href);
+  });
+});
+
 // Reveal elements as they enter the viewport.
-const observer = new IntersectionObserver((entries) => {
+const observer = "IntersectionObserver" in window ? new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add("visible");
       observer.unobserve(entry.target);
     }
   });
-}, { threshold: 0.12 });
+}, { threshold: 0.12 }) : null;
 
-document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+document.querySelectorAll(".reveal").forEach(el => {
+  if (observer) observer.observe(el);
+  else el.classList.add("visible");
+});
 
 // Countdown to the wedding date.
 function updateCountdown() {
@@ -224,4 +236,15 @@ if (galleryWrapper && galleryScroll) {
       galleryScroll.style.transform = "none";
     }
   }, { passive: true });
+}
+
+
+function addReceptionToCalendar() {
+  const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//SubhasishAndIpshitaWedding//EN\nBEGIN:VEVENT\nUID:subhasish-ipshita-reception-20270128@example.com\nDTSTAMP:20260817T000000Z\nDTSTART;VALUE=DATE:20270128\nDTEND;VALUE=DATE:20270129\nSUMMARY:Reception — Subhasish & Ipshita\nLOCATION:Tirupati Balaji Banquet\nDESCRIPTION:Reception celebration of Subhasish & Ipshita.\nSTATUS:CONFIRMED\nEND:VEVENT\nEND:VCALENDAR`;
+  const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url; link.download = "subhasish-ipshita-reception-28-january-2027.ics";
+  document.body.appendChild(link); link.click(); link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
