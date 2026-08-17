@@ -5,20 +5,39 @@ const enterBtn = document.getElementById("enterBtn");
 const musicBtn = document.getElementById("musicBtn");
 const bgMusic = document.getElementById("bgMusic");
 
-enterBtn.addEventListener("click", () => {
-  preloader.classList.add("hidden");
-  bgMusic.volume = 0.25;
-  bgMusic.play().then(() => musicBtn.classList.add("playing")).catch(() => {});
-});
+if (enterBtn && preloader) {
+  enterBtn.addEventListener("click", () => {
+    preloader.classList.add("hidden");
+    document.body.classList.add("site-entered");
 
-musicBtn.addEventListener("click", () => {
-  if (bgMusic.paused) {
-    bgMusic.play().then(() => musicBtn.classList.add("playing")).catch(() => {});
-  } else {
-    bgMusic.pause();
-    musicBtn.classList.remove("playing");
-  }
-});
+    // Music is optional. A missing/blocked audio file must never stop the page.
+    if (bgMusic) {
+      bgMusic.volume = 0.25;
+      const playPromise = bgMusic.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise
+          .then(() => musicBtn && musicBtn.classList.add("playing"))
+          .catch(() => {});
+      }
+    }
+  });
+}
+
+if (musicBtn && bgMusic) {
+  musicBtn.addEventListener("click", () => {
+    if (bgMusic.paused) {
+      const playPromise = bgMusic.play();
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise
+          .then(() => musicBtn.classList.add("playing"))
+          .catch(() => {});
+      }
+    } else {
+      bgMusic.pause();
+      musicBtn.classList.remove("playing");
+    }
+  });
+}
 
 // Reveal elements as they enter the viewport.
 const observer = new IntersectionObserver((entries) => {
