@@ -906,3 +906,67 @@ img { user-select:none; -webkit-user-select:none; -webkit-user-drag:none; user-d
     animation: none;
   }
 }
+
+/* =========================================================
+   WEDDING EVENTS
+   ========================================================= */
+.events-grid {
+  width: min(1100px, 92%);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+
+.event-card {
+  text-align: center;
+  padding: 30px 20px;
+  background: rgba(255,255,255,.9);
+  border: 1px solid rgba(138,89,100,.18);
+  box-shadow: 0 12px 30px rgba(116,52,66,.10);
+  border-radius: 14px;
+}
+
+.event-icon {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.event-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+  font-size: .72rem;
+  color: #8a5964;
+}
+
+.event-card h3 {
+  margin: 8px 0 10px;
+}
+
+.event-date,
+.event-time,
+.event-location {
+  margin: 7px 0;
+}
+
+.event-time {
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .events-grid {
+    grid-template-columns: 1fr;
+    width: 88%;
+  }
+
+  .event-card {
+    padding: 24px 18px;
+  }
+}
