@@ -143,3 +143,82 @@ document.addEventListener("dblclick", event => {
     event.preventDefault();
   }
 });
+
+
+// =========================================================
+// RESPONSIVE WEDDING PHOTO GALLERY
+// Auto-scrolls once, then becomes manually scrollable.
+// Works with laptop mouse/trackpad and mobile touch.
+// =========================================================
+
+const galleryWrapper = document.querySelector(".gallery-scroll-wrapper");
+const galleryScroll = document.querySelector(".gallery-scroll");
+
+if (galleryWrapper && galleryScroll) {
+  let autoScrollFinished = false;
+  let pointerDown = false;
+  let startX = 0;
+  let startScroll = 0;
+
+  // After the single automatic cycle, freeze the animation.
+  galleryScroll.addEventListener("animationend", () => {
+    autoScrollFinished = true;
+    galleryScroll.style.animation = "none";
+    galleryScroll.style.transform = "none";
+    galleryScroll.classList.add("manual-scroll-ready");
+  });
+
+  // Laptop/desktop: mouse wheel scrolls horizontally after auto-scroll.
+  galleryWrapper.addEventListener("wheel", event => {
+    if (!autoScrollFinished) return;
+
+    const vertical = Math.abs(event.deltaY);
+    const horizontal = Math.abs(event.deltaX);
+
+    if (vertical > horizontal) {
+      event.preventDefault();
+      galleryWrapper.scrollLeft += event.deltaY;
+    }
+  }, { passive: false });
+
+  // Laptop/desktop: click-drag after auto-scroll.
+  galleryWrapper.addEventListener("pointerdown", event => {
+    if (!autoScrollFinished) return;
+    if (event.pointerType === "touch") return;
+
+    pointerDown = true;
+    startX = event.clientX;
+    startScroll = galleryWrapper.scrollLeft;
+    galleryWrapper.classList.add("dragging");
+
+    try {
+      galleryWrapper.setPointerCapture(event.pointerId);
+    } catch (_) {}
+  });
+
+  galleryWrapper.addEventListener("pointermove", event => {
+    if (!pointerDown) return;
+
+    const distance = event.clientX - startX;
+    galleryWrapper.scrollLeft = startScroll - distance;
+  });
+
+  const endPointerDrag = () => {
+    pointerDown = false;
+    galleryWrapper.classList.remove("dragging");
+  };
+
+  galleryWrapper.addEventListener("pointerup", endPointerDrag);
+  galleryWrapper.addEventListener("pointercancel", endPointerDrag);
+  galleryWrapper.addEventListener("mouseleave", endPointerDrag);
+
+  // Mobile: native horizontal touch scrolling works naturally.
+  // If the user touches during/after the automatic animation,
+  // do not restart the animation.
+  galleryWrapper.addEventListener("touchstart", () => {
+    if (autoScrollFinished) {
+      galleryScroll.style.animation = "none";
+      galleryScroll.style.transform = "none";
+    }
+  }, { passive: true });
+}
