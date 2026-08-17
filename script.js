@@ -110,22 +110,6 @@ END:VCALENDAR`;
 }
 
 
-// Horizontal gallery: pause while the visitor touches/swipes, then resume.
-const galleryWrapper = document.querySelector(".gallery-scroll-wrapper");
-const galleryScroll = document.querySelector(".gallery-scroll");
-
-if (galleryWrapper && galleryScroll) {
-  galleryWrapper.addEventListener("touchstart", () => {
-    galleryScroll.style.animationPlayState = "paused";
-  }, { passive: true });
-
-  galleryWrapper.addEventListener("touchend", () => {
-    setTimeout(() => {
-      galleryScroll.style.animationPlayState = "running";
-    }, 1500);
-  }, { passive: true });
-}
-
 // Protect photos from normal drag, right-click and double-click actions.
 document.querySelectorAll("img").forEach(img => {
   img.setAttribute("draggable", "false");
