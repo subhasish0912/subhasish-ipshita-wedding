@@ -440,62 +440,78 @@ a { color: inherit; }
   line-height: 1.7;
 }
 
-.gallery-grid {
-  max-width: 1100px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 20px;
+.gallery-scroll-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 25px 0 35px;
 }
 
-.gallery-item {
-  margin: 0;
-  background: white;
-  padding: 10px;
-  box-shadow: 0 12px 35px rgba(116,52,66,.10);
-  transform: rotate(-1deg);
+.gallery-scroll {
+  display: flex;
+  width: max-content;
+  gap: 22px;
+  animation: weddingPhotoScroll 38s linear infinite;
+  will-change: transform;
+}
 
-  /* Photos are decorative, not clickable */
-  cursor: default;
+.gallery-scroll-wrapper:hover .gallery-scroll {
+  animation-play-state: paused;
+}
+
+.gallery-card {
+  flex: 0 0 330px;
+  height: 440px;
+  margin: 0;
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 14px 35px rgba(116,52,66,.15);
   user-select: none;
   -webkit-user-select: none;
   -webkit-touch-callout: none;
+  transform: rotate(-1deg);
 }
 
-.gallery-item:nth-child(2) { transform: rotate(1.2deg); }
-.gallery-item:nth-child(3) { transform: rotate(-.5deg); }
-.gallery-item:nth-child(4) { transform: rotate(1deg); }
-.gallery-item:nth-child(5) { transform: rotate(-1.4deg); }
+.gallery-card:nth-child(even) { transform: rotate(1deg); }
 
-.gallery-item:nth-child(1) { grid-column: span 4; }
-.gallery-item:nth-child(2) { grid-column: span 4; }
-.gallery-item:nth-child(3) { grid-column: span 4; }
-.gallery-item:nth-child(4) { grid-column: span 6; }
-.gallery-item:nth-child(5) { grid-column: span 6; }
-
-.gallery-item img {
+.gallery-card img {
   width: 100%;
-  height: 330px;
+  height: 100%;
   object-fit: cover;
   display: block;
-
-  /* Prevent normal image interaction */
   pointer-events: none;
   user-select: none;
   -webkit-user-select: none;
   -webkit-user-drag: none;
   user-drag: none;
   -webkit-touch-callout: none;
-
-  /* Prevent image-specific touch manipulation */
   touch-action: none;
 }
 
+@keyframes weddingPhotoScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(calc(-50% - 11px)); }
+}
+
+.gallery-scroll-hint {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 5px;
+  color: #8a5964;
+  font-size: .75rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .8;
+}
+
+.gallery-scroll-hint span:first-child,
+.gallery-scroll-hint span:last-child { font-size: 1rem; }
+
 .gallery-note {
   text-align: center;
-  color: var(--muted);
-  font-size: .75rem;
-  margin-top: 30px;
+  margin-top: 18px;
 }
 
 .details {
@@ -663,6 +679,8 @@ footer p:last-child {
   animation: fall linear forwards;
 }
 
+
+
 .reveal {
   opacity: 0;
   transform: translateY(35px);
@@ -703,25 +721,17 @@ footer p:last-child {
   .date { letter-spacing: 3px; }
 }
 
-img {
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-user-drag: none;
-  user-drag: none;
-  -webkit-touch-callout: none;
+
+/* Photo protection */
+img { user-select:none; -webkit-user-select:none; -webkit-user-drag:none; user-drag:none; -webkit-touch-callout:none; }
+.gallery-card { cursor: default; }
+
+@media (max-width: 600px) {
+  .gallery-scroll { gap: 14px; animation-duration: 32s; }
+  .gallery-card { flex: 0 0 78vw; height: 105vw; max-height: 520px; }
+  .gallery-scroll-wrapper { padding-top: 15px; }
 }
 
-.hero,
-.hero-bg,
-.floral-banner,
-.gallery-item {
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.hero img,
-.gallery-item img,
-#lightboxImg {
-  -webkit-user-drag: none;
-  user-drag: none;
+@media (prefers-reduced-motion: reduce) {
+  .gallery-scroll { animation: none; overflow-x: auto; }
 }
