@@ -77,41 +77,7 @@ function createPetal() {
 
 setInterval(createPetal, 1200);
 
-// Prevent dragging images.
-document.querySelectorAll("img").forEach(img => {
-  img.setAttribute("draggable", "false");
 
-  img.addEventListener("dragstart", event => {
-    event.preventDefault();
-  });
-});
-
-// Prevent right-click / context menu on photos.
-document.addEventListener("contextmenu", event => {
-  const photo = event.target.closest("img, .gallery-item, .hero-bg, .floral-banner");
-
-  if (photo) {
-    event.preventDefault();
-  }
-});
-
-// Prevent double-click selection/zoom behaviour on photos.
-document.addEventListener("dblclick", event => {
-  const photo = event.target.closest("img, .gallery-item");
-
-  if (photo) {
-    event.preventDefault();
-  }
-});
-
-// Prevent long-press image menu on mobile browsers.
-document.addEventListener("touchstart", event => {
-  const photo = event.target.closest("img");
-
-  if (photo) {
-    photo.style.webkitTouchCallout = "none";
-  }
-}, { passive: true });
 
 // Calendar download for the confirmed wedding date.
 // Time is intentionally omitted because the wedding time was not provided.
@@ -142,3 +108,38 @@ END:VCALENDAR`;
   link.remove();
   URL.revokeObjectURL(url);
 }
+
+
+// Horizontal gallery: pause while the visitor touches/swipes, then resume.
+const galleryWrapper = document.querySelector(".gallery-scroll-wrapper");
+const galleryScroll = document.querySelector(".gallery-scroll");
+
+if (galleryWrapper && galleryScroll) {
+  galleryWrapper.addEventListener("touchstart", () => {
+    galleryScroll.style.animationPlayState = "paused";
+  }, { passive: true });
+
+  galleryWrapper.addEventListener("touchend", () => {
+    setTimeout(() => {
+      galleryScroll.style.animationPlayState = "running";
+    }, 1500);
+  }, { passive: true });
+}
+
+// Protect photos from normal drag, right-click and double-click actions.
+document.querySelectorAll("img").forEach(img => {
+  img.setAttribute("draggable", "false");
+  img.addEventListener("dragstart", event => event.preventDefault());
+});
+
+document.addEventListener("contextmenu", event => {
+  if (event.target.closest("img, .gallery-card, .hero, .floral-banner")) {
+    event.preventDefault();
+  }
+});
+
+document.addEventListener("dblclick", event => {
+  if (event.target.closest("img, .gallery-card, .hero")) {
+    event.preventDefault();
+  }
+});
